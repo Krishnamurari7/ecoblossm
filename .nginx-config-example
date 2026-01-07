@@ -1,0 +1,63 @@
+# Nginx Configuration for Eco Blossom Creations
+# Place this file at: /etc/nginx/sites-available/ecoblossom
+
+server {
+    listen 80;
+    server_name ecoblossomcreations.com www.ecoblossomcreations.com;
+
+    # After SSL setup, uncomment this line to redirect HTTP to HTTPS
+    # return 301 https://$server_name$request_uri;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        
+        # Increase timeouts for large requests
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    # Static files caching (optional optimization)
+    location /_next/static {
+        proxy_pass http://localhost:3000;
+        proxy_cache_valid 200 60m;
+        add_header Cache-Control "public, immutable";
+    }
+}
+
+# HTTPS Configuration (after SSL certificate)
+# Certbot will automatically update this section
+
+server {
+    listen 443 ssl http2;
+    server_name ecoblossomcreations.com www.ecoblossomcreations.com;
+
+    # SSL certificates (Certbot will add these)
+    # ssl_certificate /etc/letsencrypt/live/ecoblossomcreations.com/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/ecoblossomcreations.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+}
+
