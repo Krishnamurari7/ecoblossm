@@ -18,7 +18,6 @@ export default function CartSidebar() {
 
     cart.forEach((item, index) => {
       message += `${index + 1}. *${item.name}*\n`;
-      message += `   • MOQ: ${item.moq}\n`;
       message += `   • Category: ${item.category}\n`;
       if (origin) {
         message += `   • Link: ${origin}/product/${item.id}\n\n`;
@@ -89,8 +88,7 @@ export default function CartSidebar() {
                     </div>
                     <div className="flex-1">
                        <h3 className="font-bold text-eco-dark dark:text-white line-clamp-1">{item.name}</h3>
-                       <p className="text-xs text-eco-DEFAULT font-bold uppercase tracking-wider mb-2">{item.category}</p>
-                       <p className="text-xs text-gray-500">MOQ: {item.moq}</p>
+                       <p className="text-xs text-eco-DEFAULT font-bold uppercase tracking-wider">{item.category}</p>
                     </div>
                     <button 
                       onClick={() => removeFromCart(item.id)}

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removed "output: export" to enable API routes for email functionality
+  // Static export for Hostinger / static hosting (this disables Next.js API routes)
+  output: "export",
   trailingSlash: true,
   images: {
     unoptimized: true,

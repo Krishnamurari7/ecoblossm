@@ -1,4 +1,3 @@
-// components/ProductClient.jsx
 "use client";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
@@ -14,8 +13,6 @@ export default function ProductClient({ product }) {
   return (
     <main className="pt-28 min-h-screen bg-eco-cream dark:bg-gray-950 text-eco-dark dark:text-white pb-20">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16">
-        
-        {/* Left: Professional Image Gallery */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -28,7 +25,6 @@ export default function ProductClient({ product }) {
               </div>
            </div>
            
-           {/* Certification Badges */}
            <div className="flex flex-wrap gap-3 justify-center">
               {["ISO 9001", "GMP Certified", "Phytosanitary", "Organic"].map((badge) => (
                  <div key={badge} className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-xs font-bold uppercase text-gray-500">
@@ -37,7 +33,6 @@ export default function ProductClient({ product }) {
               ))}
            </div>
 
-           {/* NEW: Key Benefits Section */}
            {product.benefits && (
              <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 mt-6">
                 <h3 className="font-serif text-xl font-bold mb-4 flex items-center gap-2">
@@ -55,7 +50,6 @@ export default function ProductClient({ product }) {
            )}
         </motion.div>
 
-        {/* Right: Technical Details & Inquiry */}
         <motion.div 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -68,25 +62,16 @@ export default function ProductClient({ product }) {
           
           <h1 className="font-serif text-4xl md:text-5xl mb-6 leading-tight">{product.name}</h1>
           
-          {/* Product Description */}
           {product.description && (
             <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
               {product.description}
             </p>
           )}
           
-          {/* Commercial Action Box */}
           <div className="bg-white dark:bg-gray-900 p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-xl mb-10 relative overflow-hidden">
              <div className="absolute top-0 right-0 w-24 h-24 bg-eco-accent/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
              
-             <div className="flex justify-center items-center mb-6 border-b border-gray-100 dark:border-gray-800 pb-4 relative z-10">
-                <div>
-                   <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Minimum Order (MOQ)</p>
-                   <p className="text-2xl font-bold font-serif text-eco-dark dark:text-white">{product.moq}</p>
-                </div>
-             </div>
-             
-             <div className="flex gap-4 relative z-10">
+             <div className="flex gap-4 relative z-10 mt-6">
                 <button 
                   onClick={() => addToCart(product)}
                   className="flex-1 bg-eco-dark dark:bg-white dark:text-eco-dark text-white rounded-xl py-4 font-bold hover:opacity-90 transition shadow-lg flex justify-center items-center gap-2 text-sm uppercase tracking-wide"
@@ -99,7 +84,6 @@ export default function ProductClient({ product }) {
              </div>
           </div>
 
-          {/* Technical Specs Tabs */}
           <div className="border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden bg-white dark:bg-gray-900">
              <div className="flex border-b border-gray-200 dark:border-gray-800">
                 {['Specifications', 'Logistics', 'Analysis'].map(tab => (
@@ -114,8 +98,6 @@ export default function ProductClient({ product }) {
              </div>
              
              <div className="p-6 h-auto max-h-80 overflow-y-auto custom-scrollbar">
-                
-                {/* 1. SPECIFICATIONS TAB */}
                 {activeTab === 'specifications' && (
                    <div className="grid grid-cols-2 gap-4 text-sm">
                       <div className="flex justify-between border-b border-dashed border-gray-200 dark:border-gray-800 pb-2"><span className="text-gray-500">Shelf Life</span> <span className="font-medium">Transit Optimized</span></div>
@@ -126,7 +108,6 @@ export default function ProductClient({ product }) {
                    </div>
                 )}
                 
-                {/* 2. LOGISTICS TAB */}
                 {activeTab === 'logistics' && (
                    <div className="space-y-4 text-sm text-gray-600 dark:text-gray-300">
                       <div className="flex items-start gap-3">
@@ -153,10 +134,8 @@ export default function ProductClient({ product }) {
                    </div>
                 )}
 
-                {/* 3. ANALYSIS TAB (Pros & Cons) */}
                 {activeTab === 'analysis' && (
                    <div className="grid grid-cols-1 gap-6">
-                      {/* Pros */}
                       {product.pros && (
                         <div>
                            <h4 className="flex items-center gap-2 font-bold text-green-600 mb-3 uppercase text-xs tracking-widest">
@@ -172,7 +151,6 @@ export default function ProductClient({ product }) {
                         </div>
                       )}
 
-                      {/* Cons */}
                       {product.cons && (
                         <div>
                            <h4 className="flex items-center gap-2 font-bold text-red-500 mb-3 uppercase text-xs tracking-widest">

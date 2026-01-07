@@ -17,7 +17,6 @@ export default function WhatsAppFloat({ productDetails }) {
                 `--------------------------------%0a` +
                 `📦 *Name:* ${productDetails.name}%0a` +
                 `🔖 *Category:* ${productDetails.category}%0a` +
-                `📊 *MOQ:* ${productDetails.moq}%0a` +
                 `--------------------------------%0a%0a` +
                 `_Please send me the best price quotation and shipping details for my location._`;
     } else {

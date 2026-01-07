@@ -2,14 +2,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, Menu, X, Leaf, ChevronRight } from "lucide-react"; // Globe ki jagah Leaf use kiya
+import { Menu, X, ChevronRight, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import ThemeToggle from "./ThemeToggle";
+import SearchModal from "./SearchModal";
 
 export default function Navbar() {
   const { setIsOpen, cart } = useCart();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -22,7 +24,6 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Catalog", href: "/shop" },
-    { name: "Services", href: "/services" },
     { name: "Company", href: "/about" },
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" }
@@ -90,6 +91,17 @@ export default function Navbar() {
 
           {/* ACTIONS */}
           <div className="flex items-center gap-3 z-50">
+            {/* Search Button */}
+            <motion.button
+              onClick={() => setSearchOpen(true)}
+              className="p-2 text-eco-dark dark:text-white hover:text-eco-DEFAULT focus:outline-none transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Search products"
+            >
+              <Search size={22} />
+            </motion.button>
+
             <div className="hidden sm:block"><ThemeToggle /></div>
             
 
@@ -158,11 +170,26 @@ export default function Navbar() {
                transition={{ delay: 0.3 }}
              >
                 <ThemeToggle />
+                <motion.button
+                  onClick={() => {
+                    setSearchOpen(true);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="p-2 text-eco-dark dark:text-white hover:text-eco-DEFAULT focus:outline-none transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label="Search products"
+                >
+                  <Search size={22} />
+                </motion.button>
              </motion.div>
           </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

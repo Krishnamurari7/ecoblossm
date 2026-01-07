@@ -84,19 +84,10 @@ export default function ProductClient({ product }) {
             </div>
           )}
           
-          {/* COMMERCIAL ACTION BOX */}
           <div className="bg-eco-dark dark:bg-gray-800 text-white p-8 rounded-3xl shadow-xl mb-10 relative overflow-hidden">
-             {/* Background Decoration */}
              <div className="absolute -top-10 -right-10 w-40 h-40 bg-eco-accent/20 rounded-full blur-3xl"></div>
              
-             <div className="flex justify-center items-center mb-8 relative z-10 border-b border-white/10 pb-6">
-                <div>
-                   <p className="text-[10px] opacity-60 uppercase tracking-widest font-bold mb-1">Minimum Order (MOQ)</p>
-                   <p className="text-3xl font-serif font-bold">{product.moq}</p>
-                </div>
-             </div>
-             
-             <div className="flex gap-4 relative z-10">
+             <div className="flex gap-4 relative z-10 mt-6">
                 <button 
                   onClick={() => addToCart(product)}
                   className="flex-1 bg-white text-eco-dark rounded-xl py-4 font-bold hover:bg-gray-100 transition shadow-lg flex justify-center items-center gap-2 text-sm uppercase tracking-wide"

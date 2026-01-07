@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cartItems, getTotalPrice, clearCart } = useCart();
+  const { cart, cartTotal, clearCart } = useCart();
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   const [shippingAddress, setShippingAddress] = useState({
@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState("card");
 
-  const subtotal = getTotalPrice();
+  const subtotal = cartTotal;
   const shipping = subtotal > 100 ? 0 : 10;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
@@ -49,7 +49,7 @@ export default function CheckoutPage() {
     }, 3000);
   };
 
-  if (cartItems.length === 0 && !orderPlaced) {
+  if (cart.length === 0 && !orderPlaced) {
     return (
       <div className="pb-20 min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -368,29 +368,37 @@ export default function CheckoutPage() {
               </h2>
 
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
-                {cartItems.map((item: any) => (
-                  <div key={item.product.id} className="flex gap-4">
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex-shrink-0">
-                      <Image
-                        src={item.product.image}
-                        alt={item.product.name}
-                        fill
-                        className="object-cover"
-                      />
+                {cart.map((item: any) => {
+                  const rawPrice = item.price;
+                  const numericPrice =
+                    typeof rawPrice === "number"
+                      ? rawPrice
+                      : parseFloat(String(rawPrice).replace(/[₹,]/g, "")) || 0;
+
+                  return (
+                    <div key={item.id} className="flex gap-4">
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex-shrink-0">
+                        <Image
+                          src={item.img}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-sm text-food-dark dark:text-lime-300 truncate">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Qty: {item.qty || 1}
+                        </p>
+                        <p className="text-sm font-semibold text-food-dark dark:text-lime-300">
+                          ₹{(numericPrice * (item.qty || 1)).toFixed(2)}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm text-food-dark dark:text-lime-300 truncate">
-                        {item.product.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Qty: {item.quantity}
-                      </p>
-                      <p className="text-sm font-semibold text-food-dark dark:text-lime-300">
-                        ₹{(item.product.price * item.quantity).toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="space-y-3 pt-6 border-t border-gray-200 dark:border-teal-800">

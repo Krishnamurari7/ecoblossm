@@ -1,28 +1,15 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react"; // Added useState
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-// Added ChevronLeft, ChevronRight, Check to imports
 import { ArrowRight, Globe, Leaf, Truck, FileText, ArrowUpRight, ChevronLeft, ChevronRight, Check } from "lucide-react";
 import { products } from "@/app/data";
 import Testimonials from "@/components/Testimonials";
 import StructuredData from "@/components/StructuredData";
 
 export default function Home() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
 
-  // Parallax effect for text
-  const xMove = useTransform(scrollYProgress, [0, 1], [0, -150]);
-
-  // --- 1. FIXED: Added State for Slider ---
-  const [current, setCurrent] = useState(0);
-
-  // --- 2. FIXED: Added Features Data ---
   const features = [
     "100% Organic & Natural",
     "Ethically Sourced",
@@ -30,7 +17,6 @@ export default function Home() {
     "Sustainable Packaging"
   ];
 
-  // --- ANIMATION VARIANTS ---
   const scrollContainer = {
     hidden: { opacity: 0 },
     show: {
@@ -38,6 +24,13 @@ export default function Home() {
       transition: { staggerChildren: 0.2 }, // Cards pop up one by one
     },
   };
+
+  const heroSliderImages = [
+    "/cow.webp",
+    "/moringa.webp",
+    "/millet.webp",
+    "/wood.webp",
+  ];
 
   const sliderImages = [
     "/Product1.webp",
@@ -52,18 +45,31 @@ export default function Home() {
     show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
+  const [heroCurrent, setHeroCurrent] = useState(0);
+  const [productCurrent, setProductCurrent] = useState(0);
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % sliderImages.length);
+    const heroTimer = setInterval(() => {
+      setHeroCurrent((prev) => (prev + 1) % heroSliderImages.length);
+    }, 5000);
+    return () => clearInterval(heroTimer);
+  }, [heroSliderImages.length]);
+
+  useEffect(() => {
+    const productTimer = setInterval(() => {
+      setProductCurrent((prev) => (prev + 1) % sliderImages.length);
     }, 4000);
-    return () => clearInterval(timer);
+    return () => clearInterval(productTimer);
   }, [sliderImages.length]);
 
-  const nextSlide = () => setCurrent((prev) => (prev + 1) % sliderImages.length);
-  const prevSlide = () =>
-    setCurrent((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
+  const nextHeroSlide = () => setHeroCurrent((prev) => (prev + 1) % heroSliderImages.length);
+  const prevHeroSlide = () =>
+    setHeroCurrent((prev) => (prev - 1 + heroSliderImages.length) % heroSliderImages.length);
 
-  // Website Structured Data for Home Page
+  const nextSlide = () => setProductCurrent((prev) => (prev + 1) % sliderImages.length);
+  const prevSlide = () =>
+    setProductCurrent((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
+
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -81,21 +87,67 @@ export default function Home() {
     <main className="bg-eco-cream dark:bg-gray-950 text-eco-dark dark:text-white relative overflow-x-hidden">
       <StructuredData data={websiteSchema} />
 
-      {/* 1. HERO SECTION: Global Trade Vibe */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 bg-gray-200 dark:bg-gray-800">
           <img
-            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2600"
-            alt="Global Logistics"
-            className="w-full h-full object-cover"
+            src={heroSliderImages[0]}
+            alt="Warehouse"
+            className="w-full h-full object-cover md:hidden"
             loading="eager"
             onError={(e) => {
-              e.target.style.display = 'none';
+              e.target.src = "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2600";
             }}
           />
+          
+          <div className="hidden md:block w-full h-full">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={heroCurrent}
+                src={heroSliderImages[heroCurrent]}
+                alt={`Hero slide ${heroCurrent + 1}`}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+                className="w-full h-full object-cover"
+                loading="eager"
+                onError={(e) => {
+                  e.target.src = "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2600";
+                }}
+              />
+            </AnimatePresence>
+          </div>
+          
+          <div className="absolute inset-0 bg-black/30 md:hidden"></div>
         </div>
 
-        <div className="relative z-10 text-center px-4 max-w-5xl mt-10 bg-slate-50 rounded-3xl bg-opacity-60 dark:bg-gray-900 dark:bg-opacity-60 py-10 shadow-lg">
+        <button
+          onClick={prevHeroSlide}
+          className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md hover:bg-white/40 p-3 rounded-full text-white z-30 transition-opacity"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          onClick={nextHeroSlide}
+          className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md hover:bg-white/40 p-3 rounded-full text-white z-30 transition-opacity"
+          aria-label="Next slide"
+        >
+          <ChevronRight size={24} />
+        </button>
+
+        <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-2 z-30">
+          {heroSliderImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setHeroCurrent(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === heroCurrent ? "bg-white w-8" : "bg-white/50 w-2"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        <div className="relative z-10 text-center px-4 max-w-5xl mt-10 bg-slate-50 rounded-3xl bg-opacity-60 dark:bg-gray-900 dark:bg-opacity-60 py-10 shadow-lg md:hidden">
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -138,9 +190,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. INFINITE MARQUEE */}
       <motion.div 
-        className="py-6 bg-eco-dark dark:bg-white overflow-hidden border-y border-white/10 relative"
+        className="py-6 bg-eco-dark dark:bg-white overflow-hidden border-y border-white/20 dark:border-gray-300/30 relative"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -149,15 +200,16 @@ export default function Home() {
         <motion.div
           animate={{ x: [0, -1000] }}
           transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-          className="flex gap-12 whitespace-nowrap text-eco-cream dark:text-eco-dark font-serif text-4xl italic opacity-80"
+          className="flex gap-12 whitespace-nowrap text-eco-cream dark:text-eco-dark font-serif text-4xl italic opacity-90 dark:opacity-80"
         >
           {Array(6)
             .fill(" IMPORT • EXPORT • LOGISTICS • WHOLESALE • GLOBAL •")
             .map((text, i) => (
               <motion.span 
                 key={i}
-                whileHover={{ scale: 1.1, color: "#84cc16" }}
+                whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
+                className="hover:text-eco-accent dark:hover:text-green-600"
               >
                 {text}
               </motion.span>
@@ -167,20 +219,18 @@ export default function Home() {
 
       <section className="py-20 px-4 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
-          {/* LEFT: AUTO SLIDER */}
           <div className="relative h-[500px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800 group">
             <div className="absolute inset-0 bg-eco-light/30 dark:bg-green-900/20 z-0 transform scale-110"></div>
             <AnimatePresence mode="wait">
               <motion.img
-                key={current}
-                src={sliderImages[current]}
+                key={productCurrent}
+                src={sliderImages[productCurrent]}
                 initial={{ opacity: 0, scale: 1.1 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.7 }}
                 className="absolute inset-0 w-full h-full object-cover z-10"
-                alt={`Premium Indian botanicals and handicrafts export products - ${products[current % products.length]?.name || 'Product showcase'}`}
+                alt={`Premium Indian botanicals and handicrafts export products - ${products[productCurrent % products.length]?.name || 'Product showcase'}`}
               />
             </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-20"></div>
@@ -200,14 +250,13 @@ export default function Home() {
               {sliderImages.map((_, index) => (
                 <div
                   key={index}
-                  className={`h-2 rounded-full transition-all duration-300 ${index === current ? "bg-white w-8" : "bg-white/50 w-2"
+                  className={`h-2 rounded-full transition-all duration-300 ${index === productCurrent ? "bg-white w-8" : "bg-white/50 w-2"
                     }`}
                 />
               ))}
             </div>
           </div>
 
-          {/* RIGHT: CONTENT */}
           <div className="space-y-8">
             <div className="space-y-6 text-gray-600 dark:text-gray-300 text-lg leading-relaxed text-justify">
               <p>
@@ -273,16 +322,13 @@ export default function Home() {
               scale: 1.02,
               transition: { type: "spring", stiffness: 300 }
             }}
-            // Card Hover: Light me White background, Dark me Gray-900 background
             className="group flex items-start gap-5 p-6 rounded-2xl transition-all duration-300 
             hover:bg-white dark:hover:bg-gray-900 
             hover:shadow-xl cursor-pointer 
             border border-transparent hover:border-green-50 dark:hover:border-green-900/30 relative overflow-hidden"
           >
-            {/* Animated Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-eco-DEFAULT/0 to-eco-DEFAULT/0 group-hover:from-eco-DEFAULT/5 group-hover:to-transparent transition-all duration-500 rounded-2xl"></div>
             
-            {/* Icon: Light me Dark Green, Dark me Bright Green (taki dikhe) */}
             <motion.div 
               className="flex-shrink-0 relative z-10"
               whileHover={{ 
@@ -297,14 +343,11 @@ export default function Home() {
               <feat.icon size={48} className="text-green-700 dark:text-green-400" />
             </motion.div>
 
-            {/* Text Section */}
             <div className="relative z-10">
-              {/* Title: Light me Black, Dark me White */}
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-800 dark:group-hover:text-green-400 transition-colors">
                 {feat.title}
               </h3>
               
-              {/* Description: Light me Gray, Dark me Light Gray */}
               <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                 {feat.desc}
               </p>
@@ -314,9 +357,7 @@ export default function Home() {
       </motion.div>
     </section>
 
-      {/* 4. OUR PRODUCT PORTFOLIO (MODERN & ANIMATED) */}
       <section className="py-24 px-4 max-w-7xl mx-auto dark:bg-gray-950 overflow-hidden">
-        {/* Header Animation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -333,7 +374,6 @@ export default function Home() {
           <div className="h-1 w-24 bg-eco-accent mx-auto rounded-full"></div>
         </motion.div>
 
-        {/* Animated Grid */}
         <motion.div
           variants={scrollContainer}
           initial="hidden"
@@ -347,19 +387,15 @@ export default function Home() {
                 href={`/product/${item.id}`}
                 className="block relative group h-[500px] w-full overflow-hidden rounded-[2.5rem] shadow-lg cursor-pointer"
               >
-                {/* Image Zoom Effect */}
                 <img
                   src={item.img}
                   alt={item.name}
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                 />
 
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
 
-                {/* Content - Slides Up */}
                 <div className="absolute bottom-0 left-0 w-full p-8 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
-                  {/* Glass Effect Box */}
                   <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl flex items-center justify-between">
                     <div>
                       <span className="text-eco-accent text-xs font-bold uppercase tracking-widest mb-1 block">
@@ -370,7 +406,6 @@ export default function Home() {
                       </h3>
                     </div>
 
-                    {/* Animated Arrow Icon */}
                     <div className="w-12 h-12 rounded-full bg-white text-eco-dark flex items-center justify-center transform group-hover:rotate-45 transition-transform duration-500 shadow-md">
                       <ArrowUpRight size={24} />
                     </div>
@@ -381,7 +416,6 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* View All Button */}
         <div className="text-center mt-16">
           <Link
             href="/shop"
@@ -392,7 +426,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. LOGISTICS PROCESS */}
       <section className="bg-eco-dark dark:bg-black text-white py-24 rounded-t-[3rem] relative z-20">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="lg:sticky lg:top-32 self-start">
@@ -436,11 +469,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. ABOUT US WITH VIDEO */}
-
       <section className="py-24 px-4 max-w-7xl mx-auto dark:bg-gray-950">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left: Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -472,7 +502,6 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Right: Video Embed */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -493,7 +522,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. INDUSTRIES WE SERVE */}
       <section className="py-24 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
@@ -571,10 +599,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. TESTIMONIALS */}
       <Testimonials />
 
-      {/* 8. CTA */}
       <motion.section 
         className="py-24 bg-white dark:bg-gray-900 text-center px-4 relative overflow-hidden"
         initial={{ opacity: 0 }}
@@ -582,7 +608,6 @@ export default function Home() {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        {/* Animated Background Pattern */}
         <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         </div>

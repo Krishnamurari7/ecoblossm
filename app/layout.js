@@ -5,11 +5,10 @@ import Footer from "@/components/Footer";
 import CartSidebar from "@/components/CartSidebar";
 import { CartProvider } from "@/context/CartContext";
 import { Providers } from "./providers";
-import { Toaster } from "react-hot-toast"; // Notification import
+import { Toaster } from "react-hot-toast";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ScrollProgress from "@/components/ScrollProgress";
 import StructuredData from "@/components/StructuredData";
-// import { metadata } from "framer-motion/client";
 
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });

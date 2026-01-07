@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${product.name} - Premium Export Quality | Eco Blossom Creations`,
-    description: product.description || `Premium quality ${product.name} for export. ${product.category}. MOQ: ${product.moq}. ISO 9001:2015 certified.`,
+    description: product.description || `Premium quality ${product.name} for export. ${product.category}. ISO 9001:2015 certified.`,
     keywords: `${product.name}, ${product.category}, export quality, wholesale`,
     openGraph: {
       title: `${product.name} | Eco Blossom Creations`,

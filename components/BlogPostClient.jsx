@@ -46,8 +46,6 @@ export default function BlogPostClient({ post }) {
 
   return (
     <main className="pt-32 min-h-screen bg-eco-cream dark:bg-gray-950 text-eco-dark dark:text-white pb-20">
-      
-      {/* 1. ARTICLE HEADER */}
       <motion.div 
         className="max-w-4xl mx-auto px-4 text-center mb-12"
         initial={{ opacity: 0, y: 30 }}
@@ -106,7 +104,6 @@ export default function BlogPostClient({ post }) {
         </motion.div>
       </motion.div>
 
-      {/* 2. HERO IMAGE */}
       <motion.div 
         className="max-w-5xl mx-auto px-4 mb-16"
         initial={{ opacity: 0, y: 30 }}
@@ -131,10 +128,7 @@ export default function BlogPostClient({ post }) {
         </motion.div>
       </motion.div>
 
-      {/* 3. CONTENT AREA */}
       <div className="max-w-3xl mx-auto px-4 grid grid-cols-1 md:grid-cols-12 gap-10">
-        
-        {/* Sticky Sidebar (Share Tools) */}
         <motion.div 
           className="hidden md:flex flex-col gap-4 md:col-span-1 sticky top-32 h-fit items-center"
           initial={{ opacity: 0, x: -30 }}
@@ -193,7 +187,6 @@ export default function BlogPostClient({ post }) {
            </motion.button>
         </motion.div>
 
-        {/* Article Text */}
         <article className="md:col-span-11 prose prose-lg dark:prose-invert prose-stone max-w-none">
           <p className="lead text-2xl font-serif italic text-gray-600 dark:text-gray-300 mb-8 leading-relaxed border-l-4 border-eco-accent pl-6">
             {post.excerpt}
@@ -242,10 +235,8 @@ export default function BlogPostClient({ post }) {
             </div>
           </div>
         </article>
-
       </div>
 
-      {/* Mobile Share Section */}
       <motion.div 
         className="md:hidden max-w-3xl mx-auto px-4 mt-12 pt-8 border-t border-gray-200 dark:border-gray-800"
         initial={{ opacity: 0, y: 20 }}

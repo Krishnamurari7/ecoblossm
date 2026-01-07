@@ -83,7 +83,7 @@ export default function Footer() {
           >
              <h4 className="font-bold text-eco-DEFAULT mb-6 uppercase text-xs tracking-widest">Company</h4>
              <ul className="space-y-3 text-sm text-eco-light/70">
-                {['About', 'Sustainability', 'Quality Assurance', 'Services'].map((item, i) => (
+                {['About', 'Quality Assurance', 'Services'].map((item, i) => (
                    <motion.li 
                      key={item}
                      initial={{ opacity: 0, x: -20 }}
@@ -185,24 +185,7 @@ export default function Footer() {
            >
              &copy; {currentYear} Eco Blossom Creations. All rights reserved.
            </motion.p>
-           <div className="flex items-center gap-6">
-              <span className="text-xs font-bold text-white/30 uppercase mr-2">Member of:</span>
-              <div className="flex gap-4 opacity-60 grayscale hover:grayscale-0 transition-all">
-                 {['APEDA', 'FIEO', 'SPICE BOARD'].map((name, i) => (
-                    <motion.div 
-                      key={name} 
-                      className="flex items-center gap-1 border border-white/30 px-2 py-1 rounded backdrop-blur-sm hover:border-eco-DEFAULT transition-all"
-                      whileHover={{ scale: 1.1, opacity: 1 }}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 0.6, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 }}
-                    >
-                        <ShieldCheck size={12}/> <span className="text-[10px] font-bold">{name}</span>
-                    </motion.div>
-                 ))}
-              </div>
-           </div>
+           
         </motion.div>
       </div>
     </footer>

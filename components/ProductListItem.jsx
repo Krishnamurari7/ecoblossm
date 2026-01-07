@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Package } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function ProductListItem({ product }) {
   if (!product) return null;
@@ -12,7 +12,6 @@ export default function ProductListItem({ product }) {
         className="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 flex items-center gap-6 p-6"
         whileHover={{ scale: 1.01 }}
       >
-        {/* Product Image */}
         <div className="relative w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
           <img
             src={product.img}
@@ -21,7 +20,6 @@ export default function ProductListItem({ product }) {
           />
         </div>
 
-        {/* Product Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-4 mb-2">
             <div className="flex-1 min-w-0">
@@ -40,13 +38,6 @@ export default function ProductListItem({ product }) {
             </motion.div>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <div className="flex items-center gap-2">
-              <Package size={14} />
-              <span className="font-medium">{product.moq}</span>
-            </div>
-          </div>
-
           {product.description && (
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 line-clamp-2">
               {product.description.substring(0, 120)}...
@@ -57,4 +48,3 @@ export default function ProductListItem({ product }) {
     </Link>
   );
 }
-

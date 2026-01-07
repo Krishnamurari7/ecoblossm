@@ -2,7 +2,6 @@ export const products = [
   { 
     id: 1, 
     name: "Wood Saw Dust", 
-    moq: "20 Metric Tons", 
     category: "Bio-Fuel / Raw Material", 
     img: "/Product1.webp",
     specs: {},
@@ -27,7 +26,6 @@ export const products = [
   { 
     id: 2, 
     name: "Moringa Powder", 
-    moq: "100 Kilograms", 
     category: "Superfoods", 
     img: "/Product2.webp",
     specs: {},
@@ -52,7 +50,6 @@ export const products = [
   { 
     id: 3, 
     name: "Onion Powder", 
-    moq: "1 Metric Ton", 
     category: "Dehydrated Spices", 
     img: "/Product3.webp",
     specs: {},
@@ -77,7 +74,6 @@ export const products = [
   { 
     id: 4, 
     name: "Makhana (Fox Nuts)", 
-    moq: "500 Kilograms", 
     category: "Superfoods / Agro", 
     img: "/Product4.webp",
     specs: {},
@@ -102,7 +98,6 @@ export const products = [
   { 
     id: 5, 
     name: "Millet Powder", 
-    moq: "1000 Kilograms", 
     category: "Grains & Flour", 
     img: "/Product5.webp",
     specs: {},
@@ -127,7 +122,6 @@ export const products = [
   {
     id: 6,
     name: "Cow Dung Cake",
-    moq: "5000 Units",
     category: "Bio-Fuel / Organic Fertilizer",
     img: "/Product6.webp",
     specs: {
@@ -154,7 +148,6 @@ export const products = [
   {
     id: 7,
     name: "Cow Manure",
-    moq: "1 Metric Ton",
     category: "Bio-Fuel / Organic Fertilizer",
     img: "/Product7.webp",
     specs: {},

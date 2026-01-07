@@ -13,7 +13,6 @@ export default function Contact() {
     email: "",
     phone: "",
     destination: "",
-    incoterms: "",
     productRequirements: "",
   });
 
@@ -63,7 +62,6 @@ export default function Contact() {
           email: "",
           phone: "",
           destination: "",
-          incoterms: "",
           productRequirements: "",
         });
       } else {
@@ -218,35 +216,18 @@ export default function Contact() {
                 </div>
 
                 {/* Row 3 - Logistics */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest text-#052C16">Destination</label>
-                      <div className="flex items-center border-b border-gray-300 dark:border-gray-700 pb-2">
-                         <Globe size={18} className="text-#052C16 mr-3"/>
-                         <input 
-                           type="text" 
-                          name="destination"
-                          value={formData.destination}
-                          onChange={handleInputChange}
-                          placeholder="e.g. Patna, India" 
-                          className="w-full bg-transparent focus:outline-none dark:text-white"
-                        />
-                      </div>
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest text-#052C16">Required Incoterms</label>
-                      <select 
-                        name="incoterms"
-                        value={formData.incoterms}
+                <div className="space-y-2">
+                   <label className="text-xs font-bold uppercase tracking-widest text-#052C16">Destination</label>
+                   <div className="flex items-center border-b border-gray-300 dark:border-gray-700 pb-2">
+                      <Globe size={18} className="text-#052C16 mr-3"/>
+                      <input 
+                        type="text" 
+                        name="destination"
+                        value={formData.destination}
                         onChange={handleInputChange}
-                        className="w-full bg-transparent border-b border-gray-300 dark:border-gray-700 pb-2 focus:outline-none dark:text-white dark:bg-gray-900"
-                      >
-                         <option value="">Select Incoterms</option>
-                         <option value="FOB (Free on Board)">FOB (Free on Board)</option>
-                         <option value="CIF (Cost, Insurance, Freight)">CIF (Cost, Insurance, Freight)</option>
-                         <option value="EXW (Ex Works)">EXW (Ex Works)</option>
-                         <option value="DDP (Delivered Duty Paid)">DDP (Delivered Duty Paid)</option>
-                      </select>
+                        placeholder="e.g. Patna, India" 
+                        className="w-full bg-transparent focus:outline-none dark:text-white"
+                      />
                    </div>
                 </div>
 

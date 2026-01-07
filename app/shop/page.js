@@ -126,20 +126,10 @@ export default function Catalog() {
                  filteredProducts.map((item, index) => (
                  <motion.div
                    layout
-                   initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  //  initial={{ opacity: 0, scale: 0.9, y: 20 }}
                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                   exit={{ opacity: 0, scale: 0.9, y: -20 }}
-                   transition={{ 
-                     duration: 0.4,
-                     delay: index * 0.05,
-                     type: "spring",
-                     stiffness: 100
-                   }}
-                   whileHover={{ 
-                     y: -10,
-                     scale: 1.02,
-                     transition: { type: "spring", stiffness: 300 }
-                   }}
+                  //  exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                
                    key={item.id}
                    className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-2xl transition-all duration-500 relative"
                  >
@@ -176,20 +166,6 @@ export default function Catalog() {
                       </motion.p>
                       <h3 className="font-serif text-2xl mb-4 group-hover:text-eco-DEFAULT transition-colors">{item.name}</h3>
                       
-                      {/* MOQ Display */}
-                      <motion.div 
-                        className="text-sm text-gray-600 dark:text-gray-400 mb-6 bg-gray-50 dark:bg-black/20 p-4 rounded-xl"
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                      >
-                         <div>
-                            <span className="block text-xs font-bold uppercase text-gray-400">MOQ</span>
-                            <span className="font-medium text-eco-dark dark:text-white">{item.moq}</span>
-                         </div>
-                      </motion.div>
-
                       <Link href={`/product/${item.id}`}>
                         <motion.div
                           className="block w-full py-4 text-center border border-eco-dark dark:border-gray-700 rounded-xl font-bold hover:bg-eco-dark hover:text-white dark:hover:bg-white dark:hover:text-eco-dark transition-all relative overflow-hidden group"

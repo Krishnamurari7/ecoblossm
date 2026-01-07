@@ -84,6 +84,7 @@ export function CartProvider({ children }) {
     <CartContext.Provider
       value={{
         cart,
+        clearCart: () => setCart([]),
         addToCart,
         removeFromCart,
         updateQty,
